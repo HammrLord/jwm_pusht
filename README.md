@@ -1,16 +1,27 @@
+<div align="center">
+
 # jwm-pusht
+
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C?logo=pytorch)](https://pytorch.org)
+[![JEPA](https://img.shields.io/badge/Architecture-JEPA-blueviolet)](https://arxiv.org/abs/2301.08243)
+[![LeWorldModel](https://img.shields.io/badge/Based_on-LeWorldModel-8A2BE2)](https://arxiv.org/abs/2603.19312)
+[![Dataset](https://img.shields.io/badge/Dataset-HuggingFace-FFD21E?logo=huggingface)](https://huggingface.co/datasets/quentinll/lewm-pusht)
+
+</div>
+
+---
 
 ## Motivation
 
 JEPA currently is a new architecture, that is actively being researched on. While going through recent papers, I stumbled upon [LeWorldModel](https://arxiv.org/abs/2603.19312). It's very interesting to think about how AdaLN-Zero conditioning lets actions steer the predictor through latent space where the model internally learns to "simulate" actions affect the world state, effectively capturing the dynamics of a physical pushing task. It's interesting to think about the practical implications of such models.
 
+---
 
-
-## First attempt - Colab (failed)
+## 1. First attempt - Colab (failed)
 
 I started small: fewer epochs, smaller batch sizes, free Colab GPU. The loss moved but the latents collapsed, the model predicted boring averages. Learned that SIGReg alone needs enough batch diversity and compute to hold. Colab runtime disconnects didn't help either.
 
-## Second attempt - L4 on GCP
+## 2. Second attempt - L4 on GCP
 
 Rented a GCP VM with an NVIDIA L4 GPU, 24 GB VRAM. Trained for 100 epochs at batch size 128 on the full PushT dataset. ViT-Tiny encoder (12 layers, 192D), causal transformer predictor (6 blocks, AdaLN-Zero), and two decoders to visualise what the latent space had learnt.
 
@@ -23,7 +34,7 @@ This time it worked.
 | Total | ~18M |
 | Latent collapse | No |
 
-## Results
+## 3. Results
 
 ### Open-loop rollouts
 
@@ -45,7 +56,7 @@ This time it worked.
 
 *Top: Real. Middle: Decoded from encoded latent. Bottom: Decoded from predicted latent (open-loop rollout). All frames are deep into the prediction horizon, not init frames.*
 
-## Reproduction
+## 4. Reproduction
 
 ### 1. Clone
 
@@ -95,7 +106,7 @@ z = model.encode_single(frames)  # (B, 192)
 all_z = model.rollout(init_imgs, init_actions, future_actions)
 ```
 
-## Project structure
+## 5. Project structure
 
 ```
 ├── config.py                     # All hyperparameters in a dataclass
@@ -121,12 +132,13 @@ all_z = model.rollout(init_imgs, init_actions, future_actions)
 └── media/                        # Output videos and plots
 ```
 
-## What didn't work
+## 6. What didn't work
 
 - Smaller ViT (fewer layers / smaller hidden dim): predictor underfit, blurry rollouts
 - Training without SIGReg: immediate collapse within 5 epochs
 - ConvTranspose in the decoder: checkerboard artefacts (switched to Upsample+Conv)
 - Running on free Colab GPU: OOM, disconnects, not enough batch diversity for SIGReg
+
 ---
 
 <div align="center">
