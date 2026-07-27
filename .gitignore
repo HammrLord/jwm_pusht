@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# OS
+.DS_Store
+*.swp
+*.swo
+
+# IDE
+.idea/
+.vscode/
+
+# Virtual envs
+.venv/
+venv/
+
+# Data (large zarr, not in repo)
+data/
+
+# Root-level legacy dirs
+.commandcode/
+colab_lewm/
+checkpoints/
+huggingface_model/
+le-wm/
+lewm/
+lewm_colab/
+model/
+plots/
+scratch/
+scripts/
+
+# Loose root files
+requirements.txt
+
+# Logs
+*.log
