@@ -14,28 +14,14 @@ build/
 .idea/
 .vscode/
 
-# Virtual envs
+# Virtual env
 .venv/
-venv/
 
-# Data (large zarr, not in repo)
-data/
-
-# Root-level legacy dirs
-.commandcode/
-colab_lewm/
+# Trained weights / generated artifacts
 checkpoints/
-huggingface_model/
-le-wm/
-lewm/
-lewm_colab/
-model/
-plots/
-scratch/
-scripts/
 
-# Loose root files
-requirements.txt
+# Command Code
+.commandcode/
 
 # Logs
 *.log

@@ -1,0 +1,10 @@
+torch==2.12.1
+numpy==2.2.6
+zarr==2.18.3
+einops==0.8.2
+transformers==5.2.0
+scikit-learn==1.7.2
+matplotlib==3.10.8
+tqdm==4.67.1
+opencv-python==5.0.0.93
+lpips==0.1.4
